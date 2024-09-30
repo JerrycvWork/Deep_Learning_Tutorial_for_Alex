@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 from model import build_model
 from utils import *
 from metrics import *
-
+print("GPU Usage Status: ",tf.test.is_gpu_available())
 
 
 
@@ -62,8 +62,8 @@ if __name__ == "__main__":
     tf.random.set_seed(42)
     create_dir("files")
 
-    train_path = "/home/htihe/Data/Nervesegmentation/Rearrange/train/"
-    valid_path = "/home/htihe/Data/Nervesegmentation/Rearrange/val/"
+    train_path = "/home/htihe/datadisk/Data_OLD/Nervesegmentation/Rearrange/train/"
+    valid_path = "/home/htihe/datadisk/Data_OLD/Nervesegmentation/Rearrange/val/"
 
     ## Training
     train_x = sorted(glob(os.path.join(train_path, "image", "*.png")))

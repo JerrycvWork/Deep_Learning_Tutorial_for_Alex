@@ -11,7 +11,6 @@ from glob import glob
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from utils import *
-from train import tf_dataset
 import math
 from natsort import natsorted, ns
 from tensorflow.keras.preprocessing import image_dataset_from_directory
@@ -20,11 +19,6 @@ from tensorflow.keras.preprocessing import image_dataset_from_directory
 
 from metrics import iou
 from utils import *
-
-
-
-
-
 
 
 #validation_dir = os.path.join('Nerve_600ms/')

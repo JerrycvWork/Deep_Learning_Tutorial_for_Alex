@@ -55,8 +55,8 @@ if __name__ == "__main__":
     tf.random.set_seed(42)
     create_dir("files")
 
-    train_path = "/home/htihe/Data/Nervesegmentation/Rearrange/train/"
-    valid_path = "/home/htihe/Data/Nervesegmentation/Rearrange/val/"
+    train_path = "/home/htihe/datadisk/Data_OLD/Nervesegmentation/Rearrange/train/"
+    valid_path = "/home/htihe/datadisk/Data_OLD/Nervesegmentation/Rearrange/val/"
 
     ## Training
     train_x = sorted(glob(os.path.join(train_path, "image", "*.png")))

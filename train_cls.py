@@ -12,7 +12,7 @@ import os
 import tensorflow as tf
 import os
 tf.get_logger().setLevel('ERROR')
-
+print("GPU Usage Status: ",tf.test.is_gpu_available())
 
 #define parameters
 BATCH_SIZE = 12
@@ -50,23 +50,18 @@ def model_selection(ms):
 
 PATH=os.getcwd()
 
-train_dir = os.path.join(PATH, '/home/htihe/Data/NerveClassification/Rearrange/train')
-validation_dir = os.path.join(PATH, '/home/htihe/Data/NerveClassification/Rearrange/val')
-#all_dir = os.path.join(PATH, '/home/htihe/Data/NerveClassification/Rearrange/classification/Rearrange/')
+train_dir = os.path.join(PATH, '/home/htihe/datadisk/Data_OLD/NerveClassification/Rearrange/train')
+validation_dir = os.path.join(PATH, '/home/htihe/datadisk/Data_OLD/NerveClassification/Rearrange/val')
 
 train_dataset = image_dataset_from_directory(train_dir ,
                                              shuffle=True,
                                              batch_size=BATCH_SIZE,
-											 #validation_split=.2,
-											 #subset="training",
 											 seed = 1337,
                                              image_size=IMG_SIZE)
 
 validation_dataset = image_dataset_from_directory(validation_dir,
                                                   shuffle=True,
                                                   batch_size=BATCH_SIZE,
-												  #validation_split=.2,
-												  #subset="validation",
 												  seed = 1337,
                                                   image_size=IMG_SIZE)
 
