@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
+# Import the Library (Including Tensorflow, Numpy)
 import os
 import numpy as np
 import cv2
@@ -17,7 +17,7 @@ from metrics import *
 print("GPU Usage Status: ",tf.test.is_gpu_available())
 
 
-
+# Define the functions for reading image, etc
 def read_image(x):
     x = x.decode()
     image = cv2.imread(x, cv2.IMREAD_COLOR)
@@ -56,26 +56,32 @@ def tf_dataset(x, y, batch=8):
     dataset = dataset.batch(batch)
     return dataset
 
+# Main Program
 
 if __name__ == "__main__":
+
+    # Could ignore. Just for the stable setting
     np.random.seed(42)
     tf.random.set_seed(42)
+
+    # Dataset Setting
     create_dir("files")
 
     train_path = "/home/htihe/datadisk/Data_OLD/Nervesegmentation/Rearrange/train/"
     valid_path = "/home/htihe/datadisk/Data_OLD/Nervesegmentation/Rearrange/val/"
 
-    ## Training
+    ## Training Dataset
     train_x = sorted(glob(os.path.join(train_path, "image", "*.png")))
     train_y = sorted(glob(os.path.join(train_path, "mask", "*.png")))
 
     ## Shuffling
     train_x, train_y = shuffling(train_x, train_y)
 
-    ## Validation
+    ## Validation Dataset
     valid_x = sorted(glob(os.path.join(valid_path, "image", "*.png")))
     valid_y = sorted(glob(os.path.join(valid_path, "mask", "*.png")))
 
+    ## Model Setting
     model_path = "files/model.h5"
     batch_size = 3
     epochs = 20
@@ -90,9 +96,11 @@ if __name__ == "__main__":
         Precision()
     ]
     
+    ## Dataset Setting
     train_dataset = tf_dataset(train_x, train_y, batch=batch_size)
     valid_dataset = tf_dataset(valid_x, valid_y, batch=batch_size)
     
+    ## Model Complie and start the training
     model.compile(loss=dice_loss, optimizer=Adam(lr), metrics=metrics)
 
     callbacks = [
@@ -120,9 +128,6 @@ if __name__ == "__main__":
             callbacks=callbacks,
             shuffle=False)
     model.save("new.h5")
-
-
-# In[ ]:
 
 
 

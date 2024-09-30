@@ -1,3 +1,4 @@
+# Import the Library (Including Tensorflow, Numpy)
 import tensorflow as tf
 import numpy as np
 import os
@@ -48,6 +49,7 @@ def model_selection(ms):
         return tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,include_top=False,weights='imagenet')
 
 
+#Set the Dataset details and paths
 PATH=os.getcwd()
 
 train_dir = os.path.join(PATH, '/home/htihe/datadisk/Data_OLD/NerveClassification/Rearrange/train')
@@ -79,36 +81,19 @@ for image_batch, labels_batch in train_dataset:
   print(image_batch.shape)
   print(labels_batch.shape)
   break
-				
 
-#<TMP>Rescaling pixel for adpating to the pretrained model
-preprocess_input = tf.keras.applications.densenet.preprocess_input
-rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./127.5, offset= -1)
-
-normalization_layer = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
-
-# Create the base model from the pre-trained model MobileNet V2
 IMG_SHAPE = IMG_SIZE + (3,)
-
-base_model = model_selection(model_str)
-
 
 data_augmentation = tf.keras.Sequential([
   tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
   tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
-])
+])				
 
- 
-image_batch, label_batch = next(iter(train_dataset))
-feature_batch = base_model(image_batch)
-print(feature_batch.shape)
 
-base_model.trainable = False
+# Detailed Model Setting from the Input Layer to Output Layer
 
-e = open(folder+"/model.txt", 'a')
-print("summary: {}" .format(base_model.summary()), file=e)
-print("Depth of the model is: {}" .format(len(base_model.layers)), file=e)
-
+preprocess_input = tf.keras.applications.densenet.preprocess_input
+rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./127.5, offset= -1)
 
 global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
 feature_batch_average = global_average_layer(feature_batch)
@@ -118,25 +103,25 @@ prediction_layer = tf.keras.layers.Dense(3, activation='softmax')
 prediction_batch = prediction_layer(feature_batch_average)
 print(prediction_batch.shape)
 
-#inputs = tf.keras.Input(shape=(224, 224, 3))
 inputs = tf.keras.Input(shape=IMG_SHAPE)
 x = data_augmentation(inputs)
 x = preprocess_input(inputs)
+base_model = model_selection(model_str)
 x = base_model(x, training=False)
 x = global_average_layer(x)
 x = tf.keras.layers.Dropout(dp_rate)(x)
 outputs = prediction_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
-	
+image_batch, label_batch = next(iter(train_dataset))
+feature_batch = base_model(image_batch)
+print(feature_batch.shape)
 
-#normalized_ds = train_dataset.map(lambda x, y: (normalization_layer(x), y))
-#image_batch, labels_batch = next(iter(normalized_ds))
-#first_image = image_batch[0]
-# Notice the pixels values are now in `[0,1]`.
-#print(np.min(first_image), np.max(first_image)) 
+base_model.trainable = False
 
-
+e = open(folder+"/model.txt", 'a')
+print("summary: {}" .format(base_model.summary()), file=e)
+print("Depth of the model is: {}" .format(len(base_model.layers)), file=e)
 
 
 # compile and train the model
@@ -151,10 +136,10 @@ print("summary: {}" .format(model.summary()), file=e)
 print("Depth of the model is: {}" .format(len(model.layers)), file=e)
 e.close()
 
-
-
 history = model.fit(train_dataset, epochs=initial_epochs, validation_data=validation_dataset)
 
+
+# Plot the Loss value and the Accuracy into the figures
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 loss = history.history['loss']
@@ -185,6 +170,7 @@ plt.savefig(folder+"/acc_loss.png")
 ##############################################Start fine tuning#######################################
 	
 
+# Set the finetune layer and start the complie
 base_model.trainable = True
 
 for layer in base_model.layers[:fine_tune_at]:
@@ -201,6 +187,7 @@ print(len(model.trainable_variables))
 print("Depth of the model is: {}" .format(len(model.trainable_variables)), file=e)
 e.close()
 
+# train the model
 
 total_epochs =  initial_epochs + fine_tune_epochs
 
@@ -209,7 +196,9 @@ history_fine = model.fit(train_dataset,
                          initial_epoch=history.epoch[-1],
                          validation_data=validation_dataset)
 	
-	
+
+# Start the plot of loss and accuracy
+
 acc += history_fine.history['accuracy']
 val_acc += history_fine.history['val_accuracy']
 loss += history_fine.history['loss']
