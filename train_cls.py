@@ -16,21 +16,25 @@ tf.get_logger().setLevel('ERROR')
 print("GPU Usage Status: ",tf.test.is_gpu_available())
 
 #define parameters
-BATCH_SIZE = 12
-IMG_SIZE = (224, 224)
-dp_rate = 0.3
-base_learning_rate=0.001
-initial_epochs = 10
-fine_tune_epochs = 20
-fine_tune_at = 670
-folder = "denseNET201"
+BATCH_SIZE = 12 # Batch Size
+IMG_SIZE = (224, 224) # Input Image Size
+dp_rate = 0.3 # Dropout Layer Rate
+base_learning_rate=0.001 # The learning rate of Optimizer
+initial_epochs = 10 # The stage 1 for initial training. The epoch is normally 10-20
+fine_tune_epochs = 20 # The stage 2 for fine-tune training. The epoch is normally equal or doulbe to the initial epoch.
+fine_tune_at = 670 # The layer number to start fine tuning
+
+#Selection Range:"resnet50v2","resnet101v2","resnet152v2","densenet121","densenet169","densenet201","mobilenetv2"
+model_str="resnet152v2"
+
+folder = model_str
 if os.path.exists(folder)<=0:
 	os.makedirs(folder)
 model_path='./savemodel/'
 
 
-#Selection Range:"resnet50v2","resnet101v2","resnet152v2","densenet121","densenet169","densenet201","mobilenetv2"
-model_str="resnet152v2"
+
+
 
 def model_selection(ms):
     if ms=="resnet50v2":

@@ -3,7 +3,7 @@
 Customized implementation and Deep Learning Tutorial for Nerve Classification and Segmentation. For Alex.
 
 - [Quick start](#Quick-start)
-- [Deep Learning Introduction](#Deep-Learning-Introduction)
+- [Deep Learning Step for Classification and Segmentation](#Deep-Learning-Step-for-Classification-and-Segmentation)
 - [Usage](#usage)
   - [Dataset](#Dataset)
   - [Training for Nerve Classification](#Training-for-Nerve-Classification)
@@ -24,9 +24,18 @@ pip install -r requirements.txt
 ```
 
 
-## Deep Learning Introduction
+## Deep Learning Step for Classification and Segmentation
 
-Wait for the filling.
+Input: Image
+(The Step of writing code for classification and segmentation)
+
+Classification
+Step1:
+Step2:
+
+Segmentation
+Step1:
+Step2:
 
 
 ## Usage
@@ -37,25 +46,15 @@ Wait for the filling.
 
 ### Training for Nerve Classification
 
+The script for training the classification network for Nerve is `train_cls.py`.
+
+The parameters of training setting is from line 19 to line 33. Please set them before starting the training.
+
+
 ```console
-> python train.py -h
-usage: train.py [-h] [--epochs E] [--batch-size B] [--learning-rate LR]
-                [--load LOAD] [--scale SCALE] [--validation VAL] [--amp]
 
-Train the UNet on images and target masks
+> python train_cls.py
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --epochs E, -e E      Number of epochs
-  --batch-size B, -b B  Batch size
-  --learning-rate LR, -l LR
-                        Learning rate
-  --load LOAD, -f LOAD  Load model from a .pth file
-  --scale SCALE, -s SCALE
-                        Downscaling factor of the images
-  --validation VAL, -v VAL
-                        Percent of the data that is used as validation (0-100)
-  --amp                 Use mixed precision
 ```
 
 
