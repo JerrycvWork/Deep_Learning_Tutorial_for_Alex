@@ -29,9 +29,15 @@ pip install -r requirements.txt
 Input: Image
 (The Step of writing code for classification and segmentation)
 
-Classification
-Step1:
-Step2:
+The general strucure of writing the code for training deep learning network could refer the `train_cls.py` and `train_seg.py` in its main functions (From Line 61 to end).
+
+### Classification Step
+
+Classification (training, Please refer the `train_cls.py` as the sample)
+
+Step1: Pre-define the parameters of training/dataset/path for saving the checkpoints. 
+Step2: Define the dataset in both training and testing. (Exp: `Line 59-72`) The definition of dataset often contain the input image size, the batch size and if shuffle the datasets randomly.
+
 
 Segmentation
 Step1:
@@ -57,7 +63,7 @@ The parameters of training setting is from line 19 to line 33. Please set them b
 
 ```
 
-(02/10 Last Modification)
+(02/10 Last Modification;)
 
 ### Prediction for Nerve Classification
 
