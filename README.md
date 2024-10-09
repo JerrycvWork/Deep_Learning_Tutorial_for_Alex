@@ -98,7 +98,7 @@ The parameters of training setting is from line 85 to line 89. The path for data
 
 After training your model in both classification and segmentation model and saving it to `folder+'/model_path'` and `"files/model.h5"`, you can easily test the output masks on your images with nerve classification and segemntation.
 
-The running of prediction is written in `link_copy.py`. We provide the example data for testing the code for running in folder `example_data`. Please unzip in the root of code.
+The running of prediction is written in `link_copy.py`. We provide the example data for testing the code for running in folder `example_data`. [https://drive.google.com/file/d/1c9zeHYzDmNOyurvylNNPND99SK1R821G/view?usp=sharing] Please unzip in the root of code.
 
 After that, please fill the path for getting the output in line 35. And also modify the model path of classification and segmentation in line 274 and 275.
 
