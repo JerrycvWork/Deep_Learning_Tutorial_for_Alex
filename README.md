@@ -54,7 +54,9 @@ Step5:
 
 
 Segmentation
+
 Step1:
+
 Step2:
 
 
@@ -77,106 +79,31 @@ The parameters of training setting is from line 19 to line 33. Please set them b
 
 ```
 
-(02/10 Last Modification;)
-
-### Prediction for Nerve Classification
-
-After training your model and saving it to `MODEL.pth`, you can easily test the output masks on your images via the CLI.
-
-To predict a single image and save it:
-
-`python predict.py -i image.jpg -o output.jpg`
-
-To predict a multiple images and show them without saving them:
-
-`python predict.py -i image1.jpg image2.jpg --viz --no-save`
-
-```console
-> python predict.py -h
-usage: predict.py [-h] [--model FILE] --input INPUT [INPUT ...] 
-                  [--output INPUT [INPUT ...]] [--viz] [--no-save]
-                  [--mask-threshold MASK_THRESHOLD] [--scale SCALE]
-
-Predict masks from input images
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --model FILE, -m FILE
-                        Specify the file in which the model is stored
-  --input INPUT [INPUT ...], -i INPUT [INPUT ...]
-                        Filenames of input images
-  --output INPUT [INPUT ...], -o INPUT [INPUT ...]
-                        Filenames of output images
-  --viz, -v             Visualize the images as they are processed
-  --no-save, -n         Do not save the output masks
-  --mask-threshold MASK_THRESHOLD, -t MASK_THRESHOLD
-                        Minimum probability value to consider a mask pixel white
-  --scale SCALE, -s SCALE
-                        Scale factor for the input images
-```
-You can specify which model file to use with `--model MODEL.pth`.
-
-
 
 ### Training for Nerve Segmentation
 
+The script for training the segmentation network for Nerve is `train_seg.py`. (Except the network MultiResUNet, this network is in `train_multiresunet.py` which share the similar code structure)
+
+The parameters of training setting is from line 85 to line 89. The path for datasets is from line 70-71. Please set them before starting the training.
+
+
 ```console
-> python train.py -h
-usage: train.py [-h] [--epochs E] [--batch-size B] [--learning-rate LR]
-                [--load LOAD] [--scale SCALE] [--validation VAL] [--amp]
 
-Train the UNet on images and target masks
+> python train_seg.py
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --epochs E, -e E      Number of epochs
-  --batch-size B, -b B  Batch size
-  --learning-rate LR, -l LR
-                        Learning rate
-  --load LOAD, -f LOAD  Load model from a .pth file
-  --scale SCALE, -s SCALE
-                        Downscaling factor of the images
-  --validation VAL, -v VAL
-                        Percent of the data that is used as validation (0-100)
-  --amp                 Use mixed precision
 ```
 
 
 ### Prediction for Nerve Segmentation
 
-After training your model and saving it to `MODEL.pth`, you can easily test the output masks on your images via the CLI.
+After training your model in both classification and segmentation model and saving it to `folder+'/model_path'` and `"files/model.h5"`, you can easily test the output masks on your images with nerve classification and segemntation.
 
-To predict a single image and save it:
+The running of prediction is written in `link_copy.py`. We provide the example data for testing the code for running in folder `example_data`. Please unzip in the root of code.
 
-`python predict.py -i image.jpg -o output.jpg`
+After that, please fill the path for getting the output in line 35. And also modify the model path of classification and segmentation in line 274 and 275.
 
-To predict a multiple images and show them without saving them:
+After that, the result could be found in the output folder.
 
-`python predict.py -i image1.jpg image2.jpg --viz --no-save`
-
-```console
-> python predict.py -h
-usage: predict.py [-h] [--model FILE] --input INPUT [INPUT ...] 
-                  [--output INPUT [INPUT ...]] [--viz] [--no-save]
-                  [--mask-threshold MASK_THRESHOLD] [--scale SCALE]
-
-Predict masks from input images
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --model FILE, -m FILE
-                        Specify the file in which the model is stored
-  --input INPUT [INPUT ...], -i INPUT [INPUT ...]
-                        Filenames of input images
-  --output INPUT [INPUT ...], -o INPUT [INPUT ...]
-                        Filenames of output images
-  --viz, -v             Visualize the images as they are processed
-  --no-save, -n         Do not save the output masks
-  --mask-threshold MASK_THRESHOLD, -t MASK_THRESHOLD
-                        Minimum probability value to consider a mask pixel white
-  --scale SCALE, -s SCALE
-                        Scale factor for the input images
-```
-You can specify which model file to use with `--model MODEL.pth`.
+(08/10 Last Modification)
 
 
